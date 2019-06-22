@@ -1,4 +1,5 @@
-参考《算法笔记》
+#### 参考《算法笔记》
+```c++
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -16,7 +17,6 @@ int main(){
     for(int i=0;i<n;i++){
         scanf("%d",&A[i]);
     }
-
     dp[0]=A[0];
     st[0]=0;
     for(int i=1;i<n;i++){
@@ -45,8 +45,8 @@ int main(){
     }
     return 0;
 }
-
-
+```
+```c++
 /*
 #include <iostream>
 #include <cstdio>
@@ -90,3 +90,4 @@ int main() {
 	return 0;
 }
 */
+```
