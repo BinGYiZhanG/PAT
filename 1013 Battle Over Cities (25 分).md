@@ -1,6 +1,7 @@
 #### 思路：
 ### 设置该城市已访问，然后，寻找连通块，即要修复的公路数
 
+```cpp
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -44,3 +45,4 @@ int main(){
     }
     return 0;
 }
+```
