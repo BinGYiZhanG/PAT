@@ -1,4 +1,4 @@
-#### 坑点：scanf无法同时读入double型，和int型，要同时读的话要用cin
+### 坑点：scanf无法同时读入double型，和int型，要同时读的话要用cin
 #### 坑点代码:
 ```cpp
 #include <bits/stdc++.h>
