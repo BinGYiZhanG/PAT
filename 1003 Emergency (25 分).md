@@ -1,4 +1,5 @@
-贴一个19分代码，用SPFA写的
+#### 贴一个19分代码，用SPFA写的
+```cpp
 #include <iostream>
 #include <cstdio>
 #include <algorithm>
@@ -150,5 +151,5 @@ int main() {
 	printf("%d %d\n", num[ed], w[ed]);
 	return 0;
 }
-
+```
 
