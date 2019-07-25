@@ -20,3 +20,67 @@ ID K ID[1] ID[2] ... ID[K]
 Note:序列${A_{1},A_{2},...,A_{n}}$比序列${B_{1},B_{2},...,B_{m}}$大，如果存在$1\leq k<$min{n,m}使得$A_{i}=B_{i}$对于i=1,...,k,并且$A_{k+1}>B_{k+1}$。<br>
 
 
+### 注意点：
+* 题中所说按递减序打印，是在输出每层结点时所说（看题图，对照输出即可），
+* 路径必须是根节点到叶节点，也就是说得加一个对于最后结点是否为叶节点的判断
+* DFS在大于S时，要返回
+
+```cpp
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+int N,M,S;
+int weight[110],path[110];
+vector<int> node[110];
+int num=0;
+
+///题中的路径按递减序：是每一层的结点，按权值由大到小排列
+bool cmp(int a,int b){
+    return weight[a]>weight[b];
+}
+
+void DFS(int index,int tmpindex,int sum){
+    if(sum>S)///DFS常规操作
+        return ;
+    if(sum==S){
+        if(node[index].size()!=0)///审题不清，必须得到叶节点才可以输出（一开始没加）
+            return ;
+        for(int i=0;i<tmpindex;i++){
+            if(i!=tmpindex-1)
+                printf("%d ",weight[path[i]]);
+            else
+                printf("%d",weight[path[i]]);
+        }
+        printf("\n");
+        return ;
+    }
+    for(int i=0;i<(int)node[index].size();i++){
+        int child=node[index][i];
+        path[tmpindex]=child;
+        DFS(child,tmpindex+1,sum+weight[child]);
+    }
+}
+
+int main(){
+    scanf("%d%d%d",&N,&M,&S);
+    for(int i=0;i<N;i++){
+        scanf("%d",&weight[i]);
+    }
+    int ID,K,tmpID;
+    for(int i=0;i<M;i++){
+        scanf("%d%d",&ID,&K);
+        for(int i=0;i<K;i++){
+            scanf("%d",&tmpID);
+            node[ID].push_back(tmpID);
+        }
+        sort(node[ID].begin(),node[ID].end(),cmp);
+    }
+    path[0]=0;
+    DFS(0,1,weight[0]);
+    return 0;
+}
+```
