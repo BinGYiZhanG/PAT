@@ -1,89 +1,102 @@
-只是再抄写一下《算法笔记》而已。。
+自己写了一遍，不是单纯的Dijkstra算法
 
 ### 1,Dijkstra+DFS
 ```cpp
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
 using namespace std;
 
-const int maxv=510;
 const int inf=0x3f3f3f3f;
+int e[510][510],cost[510][510];
+int dis[510],c[510];
+bool vis[510];
+vector<int> pre[510];
 
-int n,m,st,ed,G[maxv][maxv],cost[maxv][maxv];
-int d[maxv],minCost=inf;
-bool vis[maxv]={false};
+int n,m,st,ed;
 
-vector<int> pre[maxv];
-vector<int> tempPath,path;
-
-void Dijkstra(int s){
-    fill(d,d+maxv,inf);
-    d[s]=0;
+void Dijsktra(){
+    dis[st]=0;
+    c[st]=0;
     for(int i=0;i<n;i++){
-        int min_=inf,u=-1;
+        int u=-1,minn=inf;
         for(int j=0;j<n;j++){
-            if(vis[u]==false || d[j]<min_){
-                min_=d[j];
+            if(dis[j]<minn&&vis[j]==false){
                 u=j;
+                minn=dis[j];
             }
         }
         if(u==-1)
-            return ;
+            break;
         vis[u]=true;
         for(int v=0;v<n;v++){
-            if(vis[v]==false&&G[u][v]!=inf){
-                if(d[v]>d[u]+G[u][v]){
-                    d[v]=d[u]+G[u][v];
+            if(vis[v]==false&&e[u][v]!=inf){
+                if(dis[v]>dis[u]+e[u][v]){
+                    dis[v]=dis[u]+e[u][v];
+                    c[v]=c[u]+cost[u][v];
                     pre[v].clear();
                     pre[v].push_back(u);
                 }
-                else if(d[u]+G[u][v]==d[v]){
-                    pre[v].push_back(u);
+                else if(dis[v]==dis[u]+e[u][v]){
+                    if(c[v]>c[u]+cost[u][v]){
+                        pre[v].push_back(u);
+                    }
                 }
             }
         }
     }
 }
 
+
+vector<int> tempath,ans;
+int mincost=inf;
 void DFS(int v){
+    tempath.push_back(v);
     if(v==st){
-        tempPath.push_back(v);
-        int tempCost=0;
-        for(int i=tempPath.size()-1;i>0;i--){
-            int id=tempPath[i],idNext=tempPath[i-1];
-            tempCost+=cost[id][idNext];
+        int tempcost=0;
+        for(int i=tempath.size()-1;i>0;i--){
+            int id=tempath[i],nextid=tempath[i-1];
+            tempcost+=cost[id][nextid];
         }
-        if(tempCost<minCost){
-            minCost=tempCost;
-            path=tempPath;
+        if(mincost>tempcost){
+            mincost=tempcost;
+            ans=tempath;
         }
-        tempPath.pop_back();
+        tempath.pop_back();
         return ;
     }
-    tempPath.push_back(v);
-    for(int i=0;i<pre[v].size();i++){
+    for(int i=0;i<(int)pre[v].size();i++){
         DFS(pre[v][i]);
     }
-    tempPath.pop_back();
+    tempath.pop_back();
+    return ;
 }
 
-int main(){
+
+int main()
+{
+    int a,b;
     scanf("%d%d%d%d",&n,&m,&st,&ed);
-    int u,v;
-    fill(G[0],G[0]+maxv*maxv,inf);///初始化图G
-    fill(cost[0],cost[0]+maxv*maxv,inf);
+    memset(e,inf,sizeof(e));
+    memset(cost,inf,sizeof(cost));
+    memset(dis,inf,sizeof(dis));
+    memset(c,inf,sizeof(c));
+    memset(vis,false,sizeof(vis));
     for(int i=0;i<m;i++){
-        scanf("%d%d",&u,&v);
-        scanf("%d%d",&G[u][v],&cost[u][v]);
-        G[v][u]=G[u][v];
-        cost[v][u]=cost[u][v];
+        scanf("%d%d",&a,&b);
+        scanf("%d%d",&e[a][b],&cost[a][b]);
+        e[b][a]=e[a][b];
+        cost[b][a]=cost[a][b];
     }
-    Dijkstra(st);       ///Dijkstra算法入口
-    DFS(ed);            ///获取最优路径
-    for(int i=path.size()-1;i>=0;i--){
-        printf("%d ",path[i]);          ///倒着输出路径上的结点
+
+    Dijsktra();
+    DFS(ed);
+
+    for(int i=ans.size()-1;i>=0;i--){
+        printf("%d ",ans[i]);
     }
-    printf("%d %d\n",d[ed],minCost);    ///最短距离，最短距离上的最小花费
+    printf("%d %d\n",dis[ed],mincost);
     return 0;
 }
 
