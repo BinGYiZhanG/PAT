@@ -1,3 +1,5 @@
+### 关于二分中的```l=m+1```与```l=m```
+
 
 ### 二分:查找第一个大于X的元素，
 ### 思想:
@@ -8,51 +10,54 @@
   ![](https://github.com/BinGYiZhanG/PAT/blob/master/Images/07012030.png)
 
 ```cpp
-#include <iostream>
-#include <algorithm>
-#include <queue>
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<vector>
 
 using namespace std;
-const int maxn = 100010;
-int sum[maxn], n, S, nearS = 100000010;
 
-int upper_bound(int L, int R, int X) {
-	int left = L, right = R, mid;
-	while (left < right) {
-		mid = (left + right) / 2;
-		if (sum[mid] > X)
-			right = mid;
-		else
-			left = mid + 1;
-	}
-	return left;
+int sum[100010];
+int n,k;
+
+int upper_bound(int lf,int rt,int x){
+    int l=lf,r=rt;
+    while(l<r){
+        int m=l+(r-l)/2;
+        if(sum[m]>x)
+            r=m;
+        else
+            l=m+1;///如果只写l=m+1,则不会输出
+            ///但是我感觉不加1，也是可以的
+    }
+    return l;
 }
 
-int main() {
-	scanf("%d%d", &n, &S);
-	sum[0] = 0;
-	for (int i = 1; i <= n; i++) {
-		scanf("%d", &sum[i]);
-		sum[i] += sum[i - 1];
-	}
-	for (int i = 1; i <= n; i++) {
-		//sum[j]-sum[i-1]:计算A[i]~A[j]的和
-		//n+1对应着，从0~n的n,即上界
-		int j = upper_bound(i, n + 1, sum[i - 1]+ S);
-		if (sum[j - 1] - sum[i - 1] == S) {
-			nearS = S;
-			break;
-		}
-		else if (j <= n && sum[j] - sum[i - 1] < nearS) {
-			nearS = sum[j] - sum[i - 1];
-		}
-	}
-	for (int i = 1; i <= n; i++) {
-		int j = upper_bound(i, n + 1, sum[i - 1] + nearS);
-		if (sum[j - 1] - sum[i - 1] == nearS) {
-			printf("%d-%d\n", i, j - 1);
-		}
-	}
-	return 0;
+int main(){
+    scanf("%d%d",&n,&k);
+    sum[0]=0;
+    for(int i=1;i<=n;i++){
+        scanf("%d",&sum[i]);
+        sum[i]+=sum[i-1];
+    }
+    int nears=100000010;
+    for(int i=1;i<=n;i++){
+        int j=upper_bound(i,n+1,k+sum[i-1]);
+        if(sum[j-1]-sum[i-1]==k){
+            nears=k;
+            break;
+        }
+        else if(j<=n&&sum[j]-sum[i-1]<nears){
+            nears=sum[j]-sum[i-1];
+        }
+    }
+    for(int i=1;i<=n;i++){
+        int j=upper_bound(i,n+1,sum[i-1]+nears);
+        if(sum[j-1]-sum[i-1]==nears){
+            printf("%d-%d\n",i,j-1);
+        }
+    }
+    return 0;
 }
+
 ```
