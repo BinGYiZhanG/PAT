@@ -1,3 +1,7 @@
+### 注意：
+* 花色输出，有0号位，该如何处理
+* 
+
 洗牌是一个被用来随机化扑克牌的过程。因为标准洗牌技术看起来是孱弱的，并且为了避免“内部操作”雇员和赌徒勾结，通过产生不充分的洗牌，许多赌场使用自动洗牌机。<br>
 你的任务是模拟一个自动洗牌机。<br>
 
@@ -23,5 +27,43 @@ J1, J2
 打印牌面
 
 ```cpp
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+char dos[]={'S','H','C','D','J'};
+int nex[55],now[55],did[55];
+
+///问题在于：如何记录花色
+///1~13是S，
+///14~ :H
+///...
+int main(){
+    int K;
+    scanf("%d",&K);
+    for(int i=1;i<=54;i++)
+        scanf("%d",&nex[i]);
+    for(int i=1;i<=54;i++)
+        now[i]=i;
+
+    for(int i=1;i<=K;i++){
+        for(int j=1;j<=54;j++){
+            did[nex[j]]=now[j];
+        }
+        for(int j=1;j<=54;j++){
+            now[j]=did[j];
+        }
+    }
+
+    for(int i=1;i<=54;i++){
+        now[i]--;//mp数组存在0号位,所以start需要--
+        if(i==1)
+            printf("%c%d",dos[now[i]/13],now[i]%13+1);
+        else
+            printf(" %c%d",dos[now[i]/13],now[i]%13+1);
+    }
+}
 
 ```
