@@ -1,4 +1,6 @@
-#### 参考《算法笔记》
+### 题目大意：求最大连续子序列和，输出最大的和以及这个子序列的开始值和结束值。如果所有数都小于0，
+### 那么认为最大的和为0，并且输出首尾元素～
+
 ```c++
 #include <iostream>
 #include <cstdio>
@@ -46,7 +48,10 @@ int main(){
     return 0;
 }
 ```
-```c++
+
+
+
+```cpp
 /*
 #include <iostream>
 #include <cstdio>
