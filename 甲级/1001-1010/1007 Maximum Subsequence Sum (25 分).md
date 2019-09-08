@@ -2,6 +2,68 @@
 * 求最大连续子序列和，输出最大的和以及这个子序列的开始值和结束值。如果所有数都小于0，
 * 那么认为最大的和为0，并且输出首尾元素～
 
+#### 21分代码
+
+* ```if(dp[i]<dp[i-1]+A[i]) ```,错
+* ```if(A[i]<dp[i-1]+A[i]) ```,对
+* 第二种情况才是符合赋值条件的，因为，在条件下，
+ * 不满足条件，```dp[i]=A[i]```
+ * 满足条件，```dp[i]=dp[i-1]+A[i]```
+ * ```dp[i]```是结果，而```A[i]```是过程，不能用结果```dp[i]```进行判断```if(dp[i]<dp[i-1]+A[i]) ```赋值,再给结果```dp[i]```
+ 
+ 
+```cpp
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <string>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+int a[10010], dp[10010], A[10010];
+
+int main() {
+	int K;
+	bool flag=false;
+	scanf("%d",&K);
+	for(int i=0;i<K;i++){
+        scanf("%d",A+i);
+        //if(A[i]>0)
+        if(A[i]>=0)//=，测试点5
+            flag=true;
+	}
+
+	if(!flag)
+        printf("0 %d %d\n",A[0],A[K-1]);
+    else{
+    //    memset(dp,0,sizeof(dp));
+    //    memset(a,0,sizeof(a));
+        a[0]=0;
+        dp[0]=A[0];
+        for(int i=1;i<K;i++){
+            if(dp[i]<dp[i-1]+A[i]){ 
+                dp[i]=dp[i-1]+A[i];
+                a[i]=a[i-1];
+            }
+            else
+            {
+                dp[i]=A[i];
+                a[i]=i;
+            }
+        }
+        int k=0;
+        for(int i=1;i<K;i++){
+            if(dp[i]>dp[k])
+                k=i;
+        }
+        printf("%d %d %d\n",dp[k],A[a[k]],A[k]);
+    }
+}
+
+```
+
+
 ```c++
 #include <iostream>
 #include <cstdio>
