@@ -2,6 +2,15 @@
 ### 推入时，前序遍历
 ### 推出时，中序遍历
 
+![](https://github.com/BinGYiZhanG/PAT/blob/master/Images/A1086.jpg)
+```
+前序 DLR 
+推入： 1 2 3 4 5 6
+中序 LDR
+推出： 3 2 4 1 6 5
+
+```
+
 ```cpp
 #include <iostream>
 #include <stack>
@@ -36,7 +45,7 @@ node* create(int preL, int preR, int inL, int inR) {
 }
 
 int num = 0;
-void postorder(node* root) {
+void postorder(node* root) {///后序输出
 	if (root == NULL)
 		return;
 	postorder(root->lchild);
@@ -68,8 +77,10 @@ int main() {
 		if (innum == n)//控制结束循环
 			break;
 	}
-	node* root = create(0, n - 1, 0, n - 1);
+	node* root = create(0, n - 1, 0, n - 1);///起止端点是数组中的元素
 	postorder(root);
+	
+	
 	/*for (int i = 0; i < prenum; i++) {
 		if (i != 0)
 			printf(" ");
