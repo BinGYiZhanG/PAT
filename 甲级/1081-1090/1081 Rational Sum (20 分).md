@@ -1,9 +1,10 @@
-假定N个分数以```numerator/denominator```，你应该计算它们的和。<br>
-输入：<br>
-每一个输入包含一个测试用例。N个分数```a1/b1 a2/b2 ...```，所有分子分母都是长整型范围内，如果有一个负数，符号应该在分子之前。<br>
-输出：<br>
-输出最简单的形式```integer numerator/denominator ```<br>
-输出```integer```是和的整数部分，如果```numerator < denominator ```，并且分子和分母之间没有最小公倍数，你应该输出它们的分数部分如果整数部分为0的话。<br>
+### 题意
+* 假定N个分数以```numerator/denominator```，你应该计算它们的和。<br>
+### 输入：<br>
+* 每一个输入包含一个测试用例。N个分数```a1/b1 a2/b2 ...```，所有分子分母都是长整型范围内，如果有一个负数，符号应该在分子之前。<br>
+### 输出：<br>
+* 输出最简单的形式```integer numerator/denominator ```<br>
+* 输出```integer```是和的整数部分，如果```numerator < denominator ```，并且分子和分母之间没有最小公倍数，你应该输出它们的分数部分。如果整数部分```(integer)```为0的话。<br>
 ```cpp
 #include <iostream>
 #include <algorithm>
