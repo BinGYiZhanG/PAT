@@ -1,3 +1,11 @@
+### 题意
+* 分数的四则运算
+
+### 思路：
+* 在函数```reduction```中,第一步为什么是```if(result.down<0){```
+  * 为了和下面的函数```showResult```中的输出```(```相对应，```if(result.up<0)```
+  * 也就是说，为了使```result.up```的正负成为判断负数正负的凭证
+
 ```cpp
 #include <iostream>
 #include <cstdio>
