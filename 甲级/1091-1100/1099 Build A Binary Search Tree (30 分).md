@@ -6,76 +6,70 @@
 ```cpp
 #include <iostream>
 #include <cstdio>
-#include <algorithm>
-#include <cstring>
 #include <queue>
+#include <algorithm>
 using namespace std;
 
-int in[110];
-bool isroot[110];
 struct node{
     int data;
-    int lchild,rchild;
+    int ld,rd;
 }nd[110];
-int n,num;
+int in[110];
 
-void inOrder(int root){
-    if(root==-1)
+int num=0,n;
+void inOrder(int index){
+    if(index==-1)
         return ;
-    inOrder(nd[root].lchild);
-    nd[root].data=in[num++];
-    inOrder(nd[root].rchild);
+    inOrder(nd[index].ld);
+    nd[index].data=in[num++];
+    inOrder(nd[index].rd);
 }
 
-void Level_order(int root){
+void levelOrder(){
     queue<int> q;
+    q.push(0);
     num=0;
-    q.push(root);
     while(!q.empty()){
-        int top=q.front();q.pop();
-        printf("%d",nd[top].data);
+        int tp=q.front();
+        q.pop();
+
         num++;
-        if(num<n){
+        printf("%d",nd[tp].data);
+        if(num<n)
             printf(" ");
-        }
-        if(nd[top].lchild!=-1)
-            q.push(nd[top].lchild);
-        if(nd[top].rchild!=-1)
-            q.push(nd[top].rchild);
+        if(nd[tp].ld!=-1)
+            q.push(nd[tp].ld);
+        if(nd[tp].rd!=-1)
+            q.push(nd[tp].rd);
     }
 }
-
 
 int main()
 {
     int lf,rt;
     scanf("%d",&n);
-    memset(isroot,0,sizeof(isroot));
     for(int i=0;i<n;i++){
         scanf("%d%d",&lf,&rt);
-        nd[i].lchild=lf;
         if(lf!=-1)
-            isroot[lf]=true;
-        nd[i].rchild=rt;
+            nd[i].ld=lf;
+        else
+            nd[i].ld=-1;
+
         if(rt!=-1)
-            isroot[rt]=true;
+            nd[i].rd=rt;
+        else
+            nd[i].rd=-1;
     }
-    for(int i=0;i<n;i++){
-        scanf("%d",in+i);
-    }
-    int root=-1;
-    for(int i=0;i<n;i++){
-        if(isroot[i]==false){
-            root=i;
-            break;
-        }
-    }
+
+    for(int i=0;i<n;i++)
+        scanf("%d",&in[i]);
     sort(in,in+n);
-    num=0;
-    inOrder(root);
-    Level_order(root);
+    inOrder(0);
+    levelOrder();
+
     return 0;
 }
+
 
 ```
 
