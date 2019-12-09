@@ -3,7 +3,7 @@
 
 ### 注意：
 * double型输出时要用%f,而非%lf
-
+* //这些界限，不能超过2001,如果时max*2 ，则报错
 ```cpp
 #include <bits/stdc++.h>
 
@@ -33,7 +33,7 @@ int main(){
         }
     }
     int cnt=0;
-    for(int i=0;i<2001;i++){
+    for(int i=0;i<2001;i++){//这些界限，不能超过2001,如果时max*2 ，则报错
         if(c[i]){
             cnt++;
         }
