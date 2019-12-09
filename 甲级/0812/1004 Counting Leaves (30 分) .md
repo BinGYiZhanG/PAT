@@ -41,9 +41,10 @@ int main(){
 }
 ```
 
-坑点：总是想着在BFS的while循环内依靠一个layers来记录层数，这明显是不可能的，因为一层可能有多个节点，不可能只通过一个layers来记录
+注意：总是想着在BFS的while循环内依靠一个layers来记录层数，这明显是不可能的，因为一层可能有多个节点，不可能只通过一个layers来记录
 
 AC代码:
+```
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -94,3 +95,4 @@ int main(){
 			printf(" %d", leaf[i]);
     }
 }
+```
