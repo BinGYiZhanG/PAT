@@ -10,3 +10,6 @@
 ### 输入：
 第一行，N，节点个数；
 第二行，N个整数
+
+* 与[1147 Heaps (30 分)](https://github.com/BinGYiZhanG/PAT/blob/master/%E7%94%B2%E7%BA%A7/1141-1150/1147%20Heaps%20(30%20%E5%88%86).md)
+做一个对比
