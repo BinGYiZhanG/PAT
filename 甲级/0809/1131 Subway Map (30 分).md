@@ -50,3 +50,82 @@ Take Line#1 from 1204 to 1306.
 Take Line#3 from 1306 to 3001.
 
 ```
+
+```
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+vector<vector<int>> v(10000);
+int visit[10000], minCnt, minTransfer, start, end1;
+unordered_map<int, int> line;
+vector<int> path, tempPath;
+
+// 计算数组a中的站点所属的站线条数
+// 如果该站点的站线值不等于前一个站点的站线值，则cnt加1 
+int transferCnt(vector<int> a) {
+    int cnt = -1, preLine = 0;
+    for (int i = 1; i < a.size(); i++) {
+        if (line[a[i-1]*10000+a[i]] != preLine) cnt++;
+        preLine = line[a[i-1]*10000+a[i]];
+    }
+    return cnt;
+}
+void dfs(int node, int cnt) {
+    if (node == end1 && (cnt < minCnt || (cnt == minCnt && transferCnt(tempPath) < minTransfer))) {
+    //到达终点，经过站点少，或者经过站点相等但是中转站数小
+        minCnt = cnt;
+        minTransfer = transferCnt(tempPath);
+        path = tempPath;
+    }
+    if (node == end1) return;
+    for (int i = 0; i < v[node].size(); i++) {
+        if (visit[v[node][i]] == 0) {
+            visit[v[node][i]] = 1;
+            tempPath.push_back(v[node][i]);///推入该条站点node所连接的下一个站点
+            dfs(v[node][i], cnt + 1);
+            visit[v[node][i]] = 0;///置未访问过
+            tempPath.pop_back();///弹出，
+        }
+    }
+}
+int main() {
+    int n, m, k, pre, temp;
+    scanf("%d", &n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d%d", &m, &pre);
+        for (int j = 1; j < m; j++) {
+            scanf("%d", &temp);
+            v[pre].push_back(temp);
+            v[temp].push_back(pre);
+            line[pre*10000+temp] = line[temp*10000+pre] = i + 1;
+            pre = temp;
+        }
+    }
+    scanf("%d", &k);
+    for (int i = 0; i < k; i++) {
+        scanf("%d%d", &start, &end1);
+        minCnt = 99999, minTransfer = 99999;
+        tempPath.clear();
+        tempPath.push_back(start);
+        visit[start] = 1;
+        dfs(start, 0);
+        visit[start] = 0;
+        printf("%d\n", minCnt);
+        int preLine = 0, preTransfer = start;
+        for (int j = 1; j < path.size(); j++) {
+            if (line[path[j-1]*10000+path[j]] != preLine) {
+                if (preLine != 0) printf("Take Line#%d from %04d to %04d.\n", preLine, preTransfer, path[j-1]);
+                preLine = line[path[j-1]*10000+path[j]];
+                preTransfer = path[j-1];
+            }
+        }
+        printf("Take Line#%d from %04d to %04d.\n", preLine, preTransfer, end1);
+    }
+    return 0;
+}
+```
+
+
+
+
